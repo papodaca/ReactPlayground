@@ -1,9 +1,4 @@
 import { Component, PropTypes } from 'react';
-import styled from 'styled-components';
-
-const StyledTable = styled.table`
-  width: 100%;
-`;
 
 class Table extends Component {
   propTypes: {
@@ -18,10 +13,10 @@ class Table extends Component {
       return <tr key={datum.id}>{row}</tr>
     }) : <tr><td>No Data</td></tr>;
     return (
-      <StyledTable>
+      <table>
         <thead>{header}</thead>
         <tbody>{body}</tbody>
-      </StyledTable>
+      </table>
     );
   }
 }

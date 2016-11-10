@@ -1,15 +1,10 @@
 import { Component } from 'react';
-import styled from 'styled-components';
 
-import I from '../../elements/icon';
-import Table from '../../elements/table';
-import UserApi from '../../../api/users'
+import I from '../elements/icon';
+import Table from '../elements/table';
+import UserApi from '../../api/users'
 
 class UserList extends Component {
-  state: {
-    users: []
-  }
-
   constructor(props) {
     super(props);
     this.tableConfig = {
@@ -38,19 +33,27 @@ class UserList extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.setState({
       users: UserApi.getAllUsers()
     });
   }
 
   render() {
-    return (
-      <div>
-        <h1><I icon="user" /> User List</h1>
-        <Table config={this.tableConfig} tdata={this.state ? this.state.users : []} />
-      </div>
-    );
+    if(this.props.children) {
+      return (
+        <div>
+          {this.props.children}
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <h1><I icon="user" /> User List</h1>
+          <Table config={this.tableConfig} tdata={this.state.users} />
+        </div>
+      );
+    }
   }
 
 }

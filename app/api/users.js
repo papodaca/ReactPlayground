@@ -1,21 +1,30 @@
 import Chance from 'chance';
 
 class Users {
-  getAllUsers() {
-    let chance = new Chance();
+  constructor() {
+    this.chance = new Chance();
     let result = [];
     for(let ii=0;ii<20;ii++) {
       result.push(ii);
     }
-    return result.map(function() {
+    this.users = result.map(() => {
       return {
-        id: chance.guid(),
-        name: chance.name(),
-        ssn: chance.ssn(),
-        gender: chance.gender(),
-        dob: chance.birthday({string: true})
+        id: this.chance.guid(),
+        name: this.chance.name(),
+        ssn: this.chance.ssn(),
+        gender: this.chance.gender(),
+        dob: this.chance.birthday({string: true})
       };
-    });
+    });;
+  }
+
+  getAllUsers() {
+    return this.users;
+  }
+
+  addUser(user) {
+    user.id = this.chance.guid();
+    this.users.push(user);
   }
 }
 

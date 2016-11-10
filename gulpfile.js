@@ -7,12 +7,12 @@ var del        = require('del');
 var browserify = require('browserify');
 var watchify   = require('watchify');
 var source     = require('vinyl-source-stream');
-var useref     = require('gulp-useref');
 
 var bundler = {
   w: null,
   init: function() {
     this.w = watchify(browserify({
+      debug: true,
       entries: ['./app/app.js'],
       insertGlobals: true,
       cache: {},
@@ -21,7 +21,9 @@ var bundler = {
   },
   bundle: function() {
     $.util.log('Bundle updated!');
-    return this.w && this.w.bundle()
+    return this.w &&
+      this.w
+      .bundle()
       .on('error', $.util.log.bind($.util, 'Browserify Error'))
       .pipe(source('app.js'))
       .pipe(gulp.dest('dist/scripts/'));
@@ -41,7 +43,6 @@ gulp.task('scripts', function() {
 
 gulp.task('html', function() {
   return gulp.src('app/*.html')
-    .pipe(useref())
     .pipe(gulp.dest('dist'))
     .pipe($.size());
 });
@@ -56,6 +57,7 @@ gulp.task('serve', function() {
   gulp.src('dist')
     .pipe($.webserver({
       livereload: true,
+      fallback: 'index.html',
       port: 9000
     }));
 });
@@ -85,7 +87,7 @@ gulp.task('build:production', sync(['set-production', 'build', 'minify']));
 
 gulp.task('serve:production', sync(['build:production', 'serve']));
 
-gulp.task('default', ['build']);
+gulp.task('default', ['watch']);
 
 gulp.task('watch', sync(['clean-bundle', 'serve']), function() {
   bundler.watch();

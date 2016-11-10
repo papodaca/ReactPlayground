@@ -8,7 +8,7 @@ class Main extends Component {
         <div className="column">
 
           <div className="ui center aligned segment">
-            <h1 class="ui header">React Prototype</h1>
+            <h1 className="ui header">React Prototype</h1>
             <p>
               This project should help you get started quickly when building
               demos, prototypes or quick proof of concept work around area of

@@ -1,9 +1,17 @@
-import styled from 'styled-components';
+import { Component } from 'react';
 
-const Nav = styled.nav`
-  height: 24px;
-  background-color: silver;
-  padding: 5px 15px 0 15px;
-`;
+class Nav extends Component {
+  render() {
+    return (
+      <nav className="navbar navbar-light bg-faded">
+        <div className="container">
+          <ul className="nav navbar-nav">
+            {this.props.children}
+          </ul>
+        </div>
+      </nav>
+    );
+  }
+}
 
 export default Nav;

@@ -1,9 +1,8 @@
+import React from 'react';
 import { Component } from 'react';
-import styled from 'styled-components';
 
 import Nav from './elements/nav'
 import NavLink from './elements/navLink'
-import I from './elements/icon'
 
 class App extends Component {
 
@@ -11,11 +10,12 @@ class App extends Component {
     return (
       <div>
         <Nav>
-          <NavLink index to="/"><I icon="star" /> Main</NavLink>
-          <NavLink to="/users"><I icon="user" /> Users</NavLink>
-          <NavLink to="/about"><I icon="smile-o" /> About</NavLink>
+          <NavLink to="/" icon="star">Main</NavLink>
+          <NavLink to="/users" icon="user">Users</NavLink>
+          <NavLink to="/users/new" icon="certificate">New User</NavLink>
+          <NavLink to="/about" icon="smile-o">About</NavLink>
         </Nav>
-        <div>
+        <div className="container">
           {React.cloneElement(this.props.children, {
             key: this.props.location.pathname
           })}
