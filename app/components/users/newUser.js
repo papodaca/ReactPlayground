@@ -11,7 +11,8 @@ class NewUser extends Component {
     event.preventDefault();
 
     UserApi.addUser(this.state.user);
-    this.context.router.transitionTo("/users");
+    //router.transitionTo("/users");
+    this.context.router.push("/users");
   }
 
   componentWillMount() {

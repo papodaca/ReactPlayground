@@ -1,8 +1,9 @@
 {
-  "name": "form",
+  "name": "Form",
   "version": "0.1.0",
   "description": "",
   "homepage": "",
+  "main": "electron.js",
   "dependencies": {
     "chance": "^1.0.4",
     "react": "^15.3.2",
@@ -16,6 +17,7 @@
     "babelify": "^7.3.0",
     "browserify": "^13.1.1",
     "del": "^2.2.2",
+    "electron": "^1.4.6",
     "gulp": "^3.9.1",
     "gulp-cache": "^0.4.3",
     "gulp-load-plugins": "^1.2.0",
