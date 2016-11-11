@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component, PropTypes } from 'react';
 
 import I from '../elements/icon';
 import Table from '../elements/table';
@@ -29,8 +29,34 @@ class UserList extends Component {
           label: 'Gender',
           field: 'gender'
         }
+      ],
+      actions: [
+        {
+          label: "Edit",
+          icon: "pencil-square-o",
+          color: "warning",
+          handle: this.handleEdit.bind(this)
+        },
+        {
+          label: "Delete",
+          icon: "trash-o",
+          color: "danger",
+          handle: this.handleDelete.bind(this)
+        }
       ]
     };
+  }
+
+  handleEdit(user, event) {
+    this.context.router.push(`/users/${user.id}`);
+  }
+
+  handleDelete(user, event) {
+    let result = confirm(`Are you suer you want to delete user: ${user.name}`);
+    if(result) {
+      UserApi.delete(user);
+      this.componentWillMount();
+    }
   }
 
   componentWillMount() {
@@ -57,5 +83,9 @@ class UserList extends Component {
   }
 
 }
+
+UserList.contextTypes= {
+  router: PropTypes.object.isRequired
+};
 
 export default UserList;

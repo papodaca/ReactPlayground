@@ -6,17 +6,22 @@ import Input from '../elements/input';
 import UserApi from '../../api/users'
 import UserForm from './userForm';
 
-class NewUser extends Component {
-  create(event) {
+class EditUser extends Component {
+  update(event) {
     event.preventDefault();
 
-    UserApi.addUser(this.state.user);
+    UserApi.update(this.state.user);
+    this.context.router.push("/users");
+  }
+
+  cancel(event) {
+    event.preventDefault();
     this.context.router.push("/users");
   }
 
   componentWillMount() {
     this.setState({
-      user: {}
+      user: UserApi.get(this.props.params.id)
     });
   }
 
@@ -32,9 +37,19 @@ class NewUser extends Component {
       <div>
         <h1><I icon="certificate" /> New User</h1>
         <div className="offset-md-2 col-md-5">
-          <UserForm user={this.state.user} onChange={this.handleChange.bind(this)}/>
-          <div className="offset-sm-2 col-sm-3">
-            <button className="btn btn-success" onClick={this.create.bind(this)}><I icon="plus"/> Create</button>
+          <UserForm
+            user={this.state.user}
+            onChange={this.handleChange.bind(this)}/>
+          <div className="offset-sm-2 col-sm-10">
+            <button
+              className="btn btn-warning"
+              onClick={this.update.bind(this)}>
+                <I icon="pencil-square-o"/> Update
+            </button>  <button
+              className="btn btn-default"
+              onClick={this.cancel.bind(this)}>
+              <I icon="ban"/> Cancel
+            </button>
           </div>
         </div>
       </div>
@@ -43,8 +58,8 @@ class NewUser extends Component {
 
 }
 
-NewUser.contextTypes= {
+EditUser.contextTypes= {
   router: PropTypes.object.isRequired
 };
 
-export default NewUser;
+export default EditUser;
