@@ -1,6 +1,18 @@
-import { Component, PropTypes } from 'react';
+import React from 'react';
 
-class Input extends Component {
+class Input extends React.Component {
+  static propTypes = {
+    name: React.PropTypes.string,
+    label: React.PropTypes.string,
+    placeholder: React.PropTypes.string,
+    type: React.PropTypes.string,
+    children: React.PropTypes.oneOfType([
+      React.PropTypes.arrayOf(React.PropTypes.node),
+      React.PropTypes.node
+    ]),
+    onChange: React.PropTypes.func
+  }
+
   render() {
     const { name, label, onChange, ...props } = this.props;
 

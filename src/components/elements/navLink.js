@@ -1,9 +1,22 @@
-import { Component, PropTypes } from 'react';
+import React from 'react';
 import { IndexLink, Link } from 'react-router';
 
-import I from './icon'
+import I from './icon';
 
-class NavLink extends Component {
+class NavLink extends React.Component {
+  static propTypes = {
+    to: React.PropTypes.string,
+    icon: React.PropTypes.string,
+    index: React.PropTypes.bool,
+    children: React.PropTypes.oneOfType([
+      React.PropTypes.arrayOf(React.PropTypes.node),
+      React.PropTypes.node
+    ])
+  }
+
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
 
   render() {
     let link;
@@ -16,7 +29,7 @@ class NavLink extends Component {
     let LiClasses = "nav-item";
 
     if(this.context.router.isActive(this.props.to)) {
-      LiClasses += " active"
+      LiClasses += " active";
     }
 
     return (
@@ -26,14 +39,5 @@ class NavLink extends Component {
     );
   }
 }
-
-NavLink.contextTypes = {
-  router: PropTypes.object.isRequired
-};
-
-NavLink.propTypes = {
-  to: PropTypes.string.isRequired,
-  index: PropTypes.bool
-};
 
 export default NavLink;

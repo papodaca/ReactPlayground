@@ -1,6 +1,13 @@
-import { Component } from 'react';
+import React from 'react';
 
-class Nav extends Component {
+class Nav extends React.Component {
+  static propTypes = {
+    children: React.PropTypes.oneOfType([
+      React.PropTypes.arrayOf(React.PropTypes.node),
+      React.PropTypes.node
+    ])
+  }
+
   render() {
     return (
       <nav className="navbar navbar-light bg-faded">

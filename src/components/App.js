@@ -1,10 +1,17 @@
 import React from 'react';
-import { Component } from 'react';
 
-import Nav from './elements/nav'
-import NavLink from './elements/navLink'
+import Nav from './elements/nav';
+import NavLink from './elements/navLink';
 
-class App extends Component {
+class App extends React.Component {
+  static propTypes = {
+    children: React.PropTypes.oneOfType([
+      React.PropTypes.arrayOf(React.PropTypes.node),
+      React.PropTypes.node
+    ]),
+    location: React.PropTypes.object,
+    "location.pathname": React.PropTypes.string
+  }
 
   render() {
     return (

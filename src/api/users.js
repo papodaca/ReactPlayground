@@ -17,7 +17,7 @@ class Users {
         gender: this.chance.gender(),
         dob: moment(this.chance.birthday()).format('YYYY-MM-DD')
       };
-    });;
+    });
   }
 
   getAllUsers() {
@@ -34,12 +34,12 @@ class Users {
   }
 
   update(user) {
-    var userIndex = _.findIndex(this.users, (thisUser) => user.id === thisUser.id);
+    let userIndex = _.findIndex(this.users, (thisUser) => user.id === thisUser.id);
     this.users.splice(userIndex, 1, user);
   }
 
   delete(user) {
-    var userIndex = _.findIndex(this.users, (thisUser) => user.id === thisUser.id);
+    let userIndex = _.findIndex(this.users, (thisUser) => user.id === thisUser.id);
     this.users.splice(userIndex, 1);
   }
 

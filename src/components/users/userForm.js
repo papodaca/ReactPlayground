@@ -1,11 +1,20 @@
-import { Component } from 'react';
+import React from 'react';
 
 import I from '../elements/icon';
 import Form from '../elements/form';
 import Input from '../elements/input';
-import UserApi from '../../api/users'
+import UserApi from '../../api/users';
 
-class UserForm extends Component {
+class UserForm extends React.Component {
+  static propTypes = {
+    user: React.PropTypes.object,
+    "user.name": React.PropTypes.string,
+    "user.ssn": React.PropTypes.string,
+    "user.dob": React.PropTypes.string,
+    "user.gender": React.PropTypes.string,
+    onChange: React.PropTypes.func
+  }
+
   render() {
     return (
       <Form>

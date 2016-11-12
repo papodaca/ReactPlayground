@@ -1,12 +1,17 @@
-import { Component, PropTypes } from 'react';
+import React from 'react';
 import _ from 'lodash';
 
 import I from './icon';
 
-class Table extends Component {
-  propTypes: {
-    config: PropTypes.object.isRequired,
-    tdata: PropTypes.array.isRequired
+const Component = React.Component,
+      PropTypes = React.PropTypes;
+
+class Table extends React.Component {
+  static propTypes = {
+    config: React.PropTypes.object.isRequired,
+    tdata: React.PropTypes.array.isRequired,
+    "config.actions": React.PropTypes.array,
+    "config.headers": React.PropTypes.array
   }
   render() {
     let header = this.props.config.headers.map((header) => {
@@ -31,7 +36,7 @@ class Table extends Component {
               <I icon={action.icon}/> {action.label}
           </button>);
       });
-      return <tr scope="row" key={datum.id}>{row}<td>{actions}</td></tr>
+      return <tr scope="row" key={datum.id}>{row}<td>{actions}</td></tr>;
     }) : <tr><td>No Data</td></tr>;
     return (
       <table className="table">

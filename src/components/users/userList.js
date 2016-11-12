@@ -1,10 +1,20 @@
-import { Component, PropTypes } from 'react';
+import React from 'react';
 
 import I from '../elements/icon';
 import Table from '../elements/table';
-import UserApi from '../../api/users'
+import UserApi from '../../api/users';
 
-class UserList extends Component {
+class UserList extends React.Component {
+  static contextTypes= {
+    router: React.PropTypes.object.isRequired
+  }
+  static propTypes = {
+    children: React.PropTypes.oneOfType([
+      React.PropTypes.arrayOf(React.PropTypes.node),
+      React.PropTypes.node
+    ])
+  }
+
   constructor(props) {
     super(props);
     this.tableConfig = {
@@ -35,34 +45,34 @@ class UserList extends Component {
           label: "Edit",
           icon: "pencil-square-o",
           color: "warning",
-          handle: this.handleEdit.bind(this)
+          handle: this.handleEdit
         },
         {
           label: "Delete",
           icon: "trash-o",
           color: "danger",
-          handle: this.handleDelete.bind(this)
+          handle: this.handleDelete
         }
       ]
     };
-  }
-
-  handleEdit(user, event) {
-    this.context.router.push(`/users/${user.id}`);
-  }
-
-  handleDelete(user, event) {
-    let result = confirm(`Are you suer you want to delete user: ${user.name}`);
-    if(result) {
-      UserApi.delete(user);
-      this.componentWillMount();
-    }
   }
 
   componentWillMount() {
     this.setState({
       users: UserApi.getAllUsers()
     });
+  }
+
+  handleEdit = (user, event) => {
+    this.context.router.push(`/users/${user.id}`);
+  }
+
+  handleDelete = (user, event) => {
+    let result = confirm(`Are you suer you want to delete user: ${user.name}`);
+    if(result) {
+      UserApi.delete(user);
+      this.componentWillMount();
+    }
   }
 
   render() {
@@ -83,9 +93,5 @@ class UserList extends Component {
   }
 
 }
-
-UserList.contextTypes= {
-  router: PropTypes.object.isRequired
-};
 
 export default UserList;

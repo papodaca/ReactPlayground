@@ -1,22 +1,18 @@
-import { Component, PropTypes } from 'react';
+import React from 'react';
 
 import I from '../elements/icon';
 import Form from '../elements/form';
 import Input from '../elements/input';
-import UserApi from '../../api/users'
+import UserApi from '../../api/users';
 import UserForm from './userForm';
 
-class EditUser extends Component {
-  update(event) {
-    event.preventDefault();
-
-    UserApi.update(this.state.user);
-    this.context.router.push("/users");
+class EditUser extends React.Component {
+  static propTypes = {
+    params: React.PropTypes.object,
+    "params.id": React.PropTypes.string
   }
-
-  cancel(event) {
-    event.preventDefault();
-    this.context.router.push("/users");
+  static contextTypes= {
+    router: React.PropTypes.object.isRequired
   }
 
   componentWillMount() {
@@ -25,11 +21,24 @@ class EditUser extends Component {
     });
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     let field = event.target.name,
-        value = event.target.value;
-    this.state.user[field] = value;
-    return this.setState({user: this.state.user});
+        value = event.target.value,
+        user = this.state.user;
+    user[field] = value;
+    return this.setState({user: user});
+  }
+
+  updateUser = (event) => {
+    event.preventDefault();
+
+    UserApi.update(this.state.user);
+    this.context.router.push("/users");
+  }
+
+  cancel = (event) => {
+    event.preventDefault();
+    this.context.router.push("/users");
   }
 
   render() {
@@ -39,15 +48,15 @@ class EditUser extends Component {
         <div className="offset-md-2 col-md-5">
           <UserForm
             user={this.state.user}
-            onChange={this.handleChange.bind(this)}/>
+            onChange={this.handleChange}/>
           <div className="offset-sm-2 col-sm-10">
             <button
               className="btn btn-warning"
-              onClick={this.update.bind(this)}>
+              onClick={this.updateUser}>
                 <I icon="pencil-square-o"/> Update
             </button>  <button
               className="btn btn-default"
-              onClick={this.cancel.bind(this)}>
+              onClick={this.cancel}>
               <I icon="ban"/> Cancel
             </button>
           </div>
@@ -57,9 +66,5 @@ class EditUser extends Component {
   }
 
 }
-
-EditUser.contextTypes= {
-  router: PropTypes.object.isRequired
-};
 
 export default EditUser;
