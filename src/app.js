@@ -4,7 +4,6 @@ import { Router, browserHistory } from 'react-router';
 
 import routes from './routes';
 
-window.React = React;
 const mountNode = document.getElementById('app');
 
 render((

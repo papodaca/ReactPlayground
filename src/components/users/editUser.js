@@ -15,7 +15,8 @@ class EditUser extends React.Component {
     router: React.PropTypes.object.isRequired
   }
 
-  componentWillMount() {
+  contructor(props) {
+    super(props);
     this.setState({
       user: UserApi.get(this.props.params.id)
     });

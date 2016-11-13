@@ -1,13 +1,12 @@
 import React from 'react';
 
-class I extends React.Component {
-  static propTypes = {
-    icon: React.PropTypes.string
-  }
-  render() {
-    let iconClass = `fa fa-${this.props.icon}`;
-    return <i className={iconClass} />;
-  }
+const I = (props) => {
+  let iconClass = `fa fa-${props.icon}`;
+  return <i className={iconClass} />;
 }
+
+I.propTypes = {
+  icon: React.PropTypes.string
+};
 
 export default I;

@@ -1,16 +1,14 @@
 import React from 'react';
 
-class Form extends React.Component {
-  static propTypes = {
-    children: React.PropTypes.oneOfType([
-      React.PropTypes.arrayOf(React.PropTypes.node),
-      React.PropTypes.node
-    ])
-  }
-
-  render() {
-    return <form>{this.props.children}</form>;
-  }
+const Form = (props) => {
+  return <form>{props.children}</form>;
 }
+
+Form.propTypes = {
+  children: React.PropTypes.oneOfType([
+    React.PropTypes.arrayOf(React.PropTypes.node),
+    React.PropTypes.node
+  ])
+};
 
 export default Form;

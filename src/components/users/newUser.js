@@ -11,7 +11,8 @@ class NewUser extends React.Component {
     router: React.PropTypes.object.isRequired
   }
 
-  componentWillMount() {
+  constructor(props) {
+    super(props);
     this.setState({
       user: {}
     });
