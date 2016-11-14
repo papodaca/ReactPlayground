@@ -4,7 +4,9 @@ import userApi from '../api/users';
 
 const handleUsers = (state = {}, action) => {
   return Object.assign({}, state, {
-    all: action.users
+    all: [
+      ...action.users
+    ]
   });
 };
 
