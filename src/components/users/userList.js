@@ -1,8 +1,10 @@
 import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 import I from '../elements/icon';
 import Table from '../elements/table';
-import UserApi from '../../api/users';
+import * as userActions from '../../actions/userActions';
 
 class UserList extends React.Component {
   static contextTypes= {
@@ -12,7 +14,10 @@ class UserList extends React.Component {
     children: React.PropTypes.oneOfType([
       React.PropTypes.arrayOf(React.PropTypes.node),
       React.PropTypes.node
-    ])
+    ]),
+    users: React.PropTypes.arrayOf(React.PropTypes.object),
+    loadUsers: React.PropTypes.func,
+    deleteUser: React.PropTypes.func,
   }
 
   constructor(props) {
@@ -57,10 +62,8 @@ class UserList extends React.Component {
     };
   }
 
-  componentWillMount() {
-    this.setState({
-      users: UserApi.getAllUsers()
-    });
+  componentWillMount = () => {
+    this.props.loadUsers();
   }
 
   handleEdit = (user, event) => {
@@ -70,8 +73,7 @@ class UserList extends React.Component {
   handleDelete = (user, event) => {
     let result = confirm(`Are you suer you want to delete user: ${user.name}`);
     if(result) {
-      UserApi.delete(user);
-      this.componentWillMount();
+      this.props.deleteUser(user);
     }
   }
 
@@ -86,7 +88,7 @@ class UserList extends React.Component {
       return (
         <div>
           <h1><I icon="user" /> User List</h1>
-          <Table config={this.tableConfig} tdata={this.state.users} />
+          <Table config={this.tableConfig} tdata={this.props.users || []} />
         </div>
       );
     }
@@ -94,4 +96,15 @@ class UserList extends React.Component {
 
 }
 
-export default UserList;
+function mapStateToProps(state, ownProps) {
+  return Object.assign({},
+    ownProps,
+    {users: state.users.all}
+  );
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(userActions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserList);

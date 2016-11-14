@@ -1,39 +1,53 @@
 import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 import I from '../elements/icon';
 import Form from '../elements/form';
 import Input from '../elements/input';
-import UserApi from '../../api/users';
 import UserForm from './userForm';
+import * as userActions from '../../actions/userActions';
 
 class EditUser extends React.Component {
   static propTypes = {
     params: React.PropTypes.object,
-    "params.id": React.PropTypes.string
+    "params.id": React.PropTypes.string,
+    updateUser: React.PropTypes.func,
+    user: React.PropTypes.object,
+    getUser: React.PropTypes.func
   }
   static contextTypes= {
     router: React.PropTypes.object.isRequired
   }
 
-  contructor(props) {
-    super(props);
-    this.setState({
-      user: UserApi.get(this.props.params.id)
-    });
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      user: props.user
+    };
+    if(!props.user.id) {
+      this.props.getUser(this.props.params.id);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(this.props.user.id !== nextProps.user.id) {
+      this.setState({user: Object.assign({},nextProps.user)});
+    }
   }
 
   handleChange = (event) => {
-    let field = event.target.name,
+    const field = event.target.name,
         value = event.target.value,
-        user = this.state.user;
+        user = Object.assign({}, this.state.user);
     user[field] = value;
-    return this.setState({user: user});
+    this.setState({user});
   }
 
-  updateUser = (event) => {
+  handleUpdate = (event) => {
     event.preventDefault();
 
-    UserApi.update(this.state.user);
+    this.props.updateUser(this.state.user);
     this.context.router.push("/users");
   }
 
@@ -53,7 +67,7 @@ class EditUser extends React.Component {
           <div className="offset-sm-2 col-sm-10">
             <button
               className="btn btn-warning"
-              onClick={this.updateUser}>
+              onClick={this.handleUpdate}>
                 <I icon="pencil-square-o"/> Update
             </button>  <button
               className="btn btn-default"
@@ -68,4 +82,16 @@ class EditUser extends React.Component {
 
 }
 
-export default EditUser;
+function mapStateToProps(state, ownProps) {
+  const userId = ownProps.params.id;
+  return Object.assign({},
+    ownProps,
+    {user: state.users.all ? state.users.all.filter(user => user.id === userId)[0] : {}}
+  );
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(userActions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditUser);

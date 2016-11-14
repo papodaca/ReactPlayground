@@ -1,10 +1,13 @@
 import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 import I from '../elements/icon';
 import Form from '../elements/form';
 import Input from '../elements/input';
 import UserApi from '../../api/users';
 import UserForm from './userForm';
+import * as userActions from '../../actions/userActions';
 
 class NewUser extends React.Component {
   static contextTypes = {
@@ -13,9 +16,9 @@ class NewUser extends React.Component {
 
   constructor(props) {
     super(props);
-    this.setState({
+    this.state = {
       user: {}
-    });
+    };
   }
 
   handleChange = (event) => {
@@ -29,7 +32,7 @@ class NewUser extends React.Component {
   createUser = (event) => {
     event.preventDefault();
 
-    UserApi.addUser(this.state.user);
+    this.props.addUser(this.state.user);
     this.context.router.push("/users");
   }
 
@@ -49,4 +52,14 @@ class NewUser extends React.Component {
 
 }
 
-export default NewUser;
+function mapStateToProps(state, ownProps) {
+  return Object.assign({},
+    ownProps
+  );
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(userActions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewUser);

@@ -1,31 +1,31 @@
 import React from 'react';
 
-const Input = () => {
-  const { name, label, onChange, ...props } = props;
+const Input = (props) => {
+  const { name, label, onChange, ...localProps } = props;
 
   let input;
 
-  if(props.type === "select") {
-    const { type, placeholder, ...props } = props;
+  if(localProps.type === "select") {
+    const { type, placeholder, ...theseProps } = localProps;
     input = (
-      <select id={name} name={name} onChange={onChange} {...props} className="form-control">
+      <select id={name} name={name} onChange={onChange} {...theseProps} className="form-control">
         <option>{placeholder}</option>
-        {props.children}
+        {theseProps.children}
       </select>
     );
   } else {
-    input = <input id={name} name={name} onChange={onChange} {...props} className="form-control">{props.children}</input>;
+    input = <input id={name} name={name} onChange={onChange} {...localProps} className="form-control">{localProps.children}</input>;
   }
 
   return (
     <div className="form-group row">
-      <label htmlFor={name} className="col-sm-2 col-form-label">{props.label}</label>
+      <label htmlFor={name} className="col-sm-2 col-form-label">{localProps.label}</label>
       <div className="col-sm-10">
         {input}
       </div>
     </div>
   );
-}
+};
 
 Input.propTypes = {
   name: React.PropTypes.string,

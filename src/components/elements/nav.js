@@ -10,7 +10,7 @@ const Nav = (props) => {
       </div>
     </nav>
   );
-}
+};
 
 Nav.propTypes = {
   children: React.PropTypes.oneOfType([

@@ -34,7 +34,7 @@ const Table = (props) => {
       <tbody>{body}</tbody>
     </table>
   );
-}
+};
 
 Table.propTypes = {
   config: React.PropTypes.object.isRequired,

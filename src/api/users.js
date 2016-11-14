@@ -2,6 +2,8 @@ import Chance from 'chance';
 import _ from 'lodash';
 import moment from 'moment';
 
+import DelayedPromise from './DelayedPromise';
+
 class Users {
   constructor() {
     this.chance = new Chance();
@@ -21,26 +23,30 @@ class Users {
   }
 
   getAllUsers() {
-    return this.users;
+    return DelayedPromise((resolve, reject) => resolve(this.users));
   }
 
   addUser(user) {
     user.id = this.chance.guid();
     this.users.push(user);
+    return this.getAllUsers();
   }
 
   get(userId) {
-    return _.find(this.users, (user) => user.id === userId);
+    let user = _.find(this.users, (user) => user.id === userId);
+    return DelayedPromise((resolve, reject) => resolve(user));
   }
 
   update(user) {
     let userIndex = _.findIndex(this.users, (thisUser) => user.id === thisUser.id);
     this.users.splice(userIndex, 1, user);
+    return this.getAllUsers();
   }
 
   delete(user) {
     let userIndex = _.findIndex(this.users, (thisUser) => user.id === thisUser.id);
     this.users.splice(userIndex, 1);
+    return this.getAllUsers();
   }
 
 }

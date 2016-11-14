@@ -1,6 +1,6 @@
 import expect from 'expect';
 
-import userApi from './users'
+import userApi from './users';
 
 describe('Api to manage users: ', () => {
   it('should exist', () => {
